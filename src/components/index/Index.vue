@@ -25,7 +25,6 @@
         </el-header>
         <el-container>
             <el-aside>
-                aside
             </el-aside>
             <el-main>
                 <el-descriptions title="基金信息" v-for="value in dataList" :key="value">
@@ -34,7 +33,14 @@
                     <el-descriptions-item label="基金名称">{{value.name}}</el-descriptions-item>
                     <el-descriptions-item label="基金类型">{{value.type}}</el-descriptions-item>
                     <el-descriptions-item label="基金经理">{{value.manager}}</el-descriptions-item>
-                    <el-descriptions-item label="当天日涨幅">{{value.expectGrowth}}</el-descriptions-item>
+                    <el-descriptions-item label="当天日涨幅(净值)">{{value.expectGrowth}}</el-descriptions-item>
+                    <el-descriptions-item label="周涨幅(净值)">{{value.lastWeekGrowth}}</el-descriptions-item>
+                    <el-descriptions-item label="月涨幅(净值)">{{value.lastMonthGrowth}}</el-descriptions-item>
+                    <el-descriptions-item label="三月涨幅(净值)">{{value.lastThreeMonthsGrowth}}</el-descriptions-item>
+                    <el-descriptions-item label="六月涨幅(净值)">{{value.lastSixMonthsGrowth}}</el-descriptions-item>
+                    <el-descriptions-item label="年涨幅(净值)">{{value.lastYearGrowth}}</el-descriptions-item>
+                    <el-descriptions-item label="净值更新日期">{{value.expectWorthDate}}</el-descriptions-item>
+                    <el-descriptions-item label="起购额度">{{value.buyMin}}</el-descriptions-item>
 <!--                    <el-descriptions-item label="备注">-->
 <!--                        <el-tag size="small">学校</el-tag>-->
 <!--                    </el-descriptions-item>-->
@@ -42,6 +48,7 @@
 <!--                    >江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item-->
 <!--                    >-->
                 </el-descriptions>
+                <v-chart class="chart" :option="option" />
             </el-main>
         </el-container>
     </el-container>
@@ -49,6 +56,26 @@
 <script>
 import { getWeather } from "@/api/weather";
 import { getFundDetailList } from "@/api/fund/fundDetailList";
+import { use } from "echarts/core";
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { PieChart } from "echarts/charts";
+import {
+    TitleComponent,
+    TooltipComponent,
+    LegendComponent
+} from "echarts/components";
+import VChart, { THEME_KEY } from "vue-echarts";
+import { ref, defineComponent } from "vue";
+
+use([
+    CanvasRenderer,
+    PieChart,
+    TitleComponent,
+    TooltipComponent,
+    LegendComponent
+]);
+
 export default {
     name: 'Index',
     props: {
@@ -61,6 +88,7 @@ export default {
             response: {
                 data:[]
             },
+            option:[],
             dataList: [],
             shortcuts: [
                 {
@@ -91,7 +119,7 @@ export default {
                     },
                 },
             ],
-            dateTime: false,
+            dateTime: ["2021-01-01"],
 
         };
     },
@@ -118,10 +146,8 @@ export default {
             let now = new Date();
             let startDate = this.dateTime[0];
             let endDate = this.dateTime[1];
+            console.log(this.startDate);
 
-            if (startDate == undefined) {
-                startDate = "2021-01-01"
-            }
             if (endDate == undefined) {
                 endDate = now.getDate()
             }
@@ -134,17 +160,17 @@ export default {
             getFundDetailList(params)
                 .then(response => {
                     // success
-                    console.log(response);
                     this.dataList = response.data.data;
-                    console.log('---');
-                    console.log(this.dataList);
                 })
                 .catch(error => {
                     // error
                     console.log(error);
                 });
         },
-    }
+    },
+    beforeMount: function () {
+        this.dateTime[1] = new Date();
+    },
 }
 </script>
 <style>
