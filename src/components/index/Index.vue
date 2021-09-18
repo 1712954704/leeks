@@ -57,7 +57,6 @@
 import { getWeather } from "@/api/weather";
 import { getFundDetailList } from "@/api/fund/fundDetailList";
 import { use } from "echarts/core";
-import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { PieChart } from "echarts/charts";
 import {
