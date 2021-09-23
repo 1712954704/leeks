@@ -6,6 +6,7 @@ import zhLocale from 'element-plus/lib/locale/lang/zh-cn'
 import 'dayjs/locale/zh-cn'
 // import ElementPlus from 'element-plus'
 import ElementPlus from './plugins/element'
+import * as echarts from 'echarts'
 
 ElementPlus.useLang = (app, ref, locale) => {
 
@@ -38,5 +39,6 @@ ElementPlus.useLang = (app, ref, locale) => {
 const app = createApp(App)
 ElementPlus.useLang(app, ref, zhLocale)
 app.use(ElementPlus)
+app.config.globalProperties.$echarts = echarts
 
 app.use(store).use(router).mount('#app')

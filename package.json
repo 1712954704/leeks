@@ -14,10 +14,10 @@
   "main": "background.js",
   "dependencies": {
     "axios": "^0.21.4",
-    "core-js": "^3.6.5",
-    "echarts": "^5.2.0",
+    "core-js": "^3.18.0",
+    "echarts": "^5.2.1",
     "element-plus": "^1.0.2-beta.28",
-    "vue": "^3.0.0",
+    "vue": "^3.2.14",
     "vue-echarts": "^6.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -28,13 +28,13 @@
     "@vue/cli-plugin-router": "^4.5.13",
     "@vue/cli-plugin-vuex": "^4.5.13",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/compiler-sfc": "^3.2.14",
     "babel-eslint": "^10.1.0",
     "electron": "13.0.0",
     "electron-devtools-installer": "^3.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0",
-    "sass": "^1.27.0",
+    "eslint-plugin-vue": "^7.18.0",
+    "sass": "^1.42.1",
     "sass-loader": "^10.0.4",
     "vue-cli-plugin-electron-builder": "^2.1.1",
     "vue-cli-plugin-element-plus": "0.0.13"
@@ -51,7 +51,10 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {},
+    "globals":{
+      "Vue": true
+    }
   },
   "browserslist": [
     "> 1%",

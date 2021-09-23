@@ -48,7 +48,12 @@
 <!--                    >江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item-->
 <!--                    >-->
                 </el-descriptions>
-                <v-chart class="chart" :option="option" />
+<!--                <div class="Echarts">-->
+<!--                    <div id="main" style="width: 600px;height:400px;"></div>-->
+<!--                </div>-->
+                <div class="funds">
+                    <div id="fund" style="width: 1200px;height:800px;"></div>
+                </div>
             </el-main>
         </el-container>
     </el-container>
@@ -56,24 +61,6 @@
 <script>
 import { getWeather } from "@/api/weather";
 import { getFundDetailList } from "@/api/fund/fundDetailList";
-import { use } from "echarts/core";
-import { CanvasRenderer } from "echarts/renderers";
-import { PieChart } from "echarts/charts";
-import {
-    TitleComponent,
-    TooltipComponent,
-    LegendComponent
-} from "echarts/components";
-import VChart, { THEME_KEY } from "vue-echarts";
-import { ref, defineComponent } from "vue";
-
-use([
-    CanvasRenderer,
-    PieChart,
-    TitleComponent,
-    TooltipComponent,
-    LegendComponent
-]);
 
 export default {
     name: 'Index',
@@ -87,8 +74,12 @@ export default {
             response: {
                 data:[]
             },
-            option:[],
             dataList: [],
+            netWorthData:[],
+            timeDate:[],    // 日期
+            netWorth:[],    // 单位净值
+            Increase:[],    // 净值涨幅
+            fundName:'',    // 基金名称
             shortcuts: [
                 {
                     text: '最近一周',
@@ -145,7 +136,10 @@ export default {
             let now = new Date();
             let startDate = this.dateTime[0];
             let endDate = this.dateTime[1];
-            console.log(this.startDate);
+
+            if (startDate == undefined) {
+                startDate = new Date()
+            }
 
             if (endDate == undefined) {
                 endDate = now.getDate()
@@ -160,12 +154,118 @@ export default {
                 .then(response => {
                     // success
                     this.dataList = response.data.data;
+                    // 处理净值数据
+                    this.tidyData(this.dataList[0].netWorthData)
+                    this.fundName = this.dataList[0].name
+                    this.myFunds()     // 图表重新整理
                 })
                 .catch(error => {
                     // error
                     console.log(error);
                 });
         },
+        tidyData(arr)
+        {
+            // 日期
+            let timeDate = arr.map(function(item){
+                return item[0];
+            });
+            // 单位净值
+            let netWorth = arr.map(function(item){
+                return item[1];
+            });
+            // 净值涨幅
+            let Increase = arr.map(function(item){
+                return item[2];
+            });
+            // 每份分红
+            let Dividends = arr.map(function(item){
+                return item[3];
+            });
+            let data = new Array();
+            this.timeDate = data['timeDate'] = timeDate;
+            this.netWorth = data['netWorth'] = netWorth;
+            this.Increase = data['Increase'] = Increase;
+            this.Dividends = data['Dividends'] = Dividends;
+
+            return data;
+        },
+        myEcharts(){
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = this.$echarts.init(document.getElementById('main'));
+
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: 'ECharts 入门示例'
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        },
+        myFunds(){
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = this.$echarts.init(document.getElementById('fund'));
+
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: this.fundName
+                },
+                tooltip: {},
+                legend: {
+                    data:['净值']
+                },
+                xAxis: {
+                    type: 'category',
+                    // data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                    data: this.timeDate
+                },
+                yAxis: {
+                    type: 'value',
+                },
+                series: [
+                    {
+                        name: '单位净值',
+                        type: 'line',
+                        data: this.netWorth
+                    },
+                    {
+                        name: '净值涨幅',
+                        type: 'line',
+                        // stack: 'Total',
+                        data: this.Increase
+                    },
+                    {
+                        name: '每份分红',
+                        type: 'line',
+                        // stack: 'Total',
+                        data: this.Dividends
+                    },
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+    },
+    mounted() {
+        // this.myEcharts();
+        // this.myFunds();
     },
     beforeMount: function () {
         this.dateTime[1] = new Date();
