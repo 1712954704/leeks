@@ -8,6 +8,17 @@ import 'dayjs/locale/zh-cn'
 import ElementPlus from './plugins/element'
 import * as echarts from 'echarts'
 
+// const { ipcRenderer } = window.require('electron')  // eslint-disable-line no-unused-vars
+// // 窗口配置程序运行窗口的大小
+// let windowConfig = { // eslint-disable-line no-unused-vars
+//     width: 900,
+//     height: 700,
+//     webPreferences: {
+//         nodeIntegration: true,
+//         preload: __dirname + '/preload.js'
+//     },
+// }
+
 ElementPlus.useLang = (app, ref, locale) => {
 
     const template = (str, option) => {

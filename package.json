@@ -52,7 +52,7 @@
       "parser": "babel-eslint"
     },
     "rules": {},
-    "globals":{
+    "globals": {
       "Vue": true
     }
   },

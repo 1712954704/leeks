@@ -1,6 +1,7 @@
 <template>
     <el-container>
         <el-header>
+            <el-button @click="goBaiDu">百度</el-button>
             <el-col :span="6" :offset="6">
                 <el-input v-model="input" @change="getFundDetailList" clearable></el-input>
             </el-col>
@@ -131,6 +132,14 @@ export default {
                     console.log(error);
                 });
         },
+        goBaiDu()
+        {
+            let shell = require('electron').shell
+            shell.beep()
+            shell.showItemInFolder('D:\\electron\\leeks')
+            // shell.openPath('D:\\electron\\leeks\\test.txt')
+            // shell.openExternal('https://www.baidu.com')
+        },
         // 获取基金详情接口
         getFundDetailList() {
             let now = new Date();
@@ -155,7 +164,7 @@ export default {
                     // success
                     this.dataList = response.data.data;
                     // 处理净值数据
-                    this.tidyData(this.dataList[0].netWorthData)
+                    // this.tidyData(this.dataList[0].netWorthData)
                     this.fundName = this.dataList[0].name
                     this.myFunds()     // 图表重新整理
                 })
@@ -266,6 +275,7 @@ export default {
     mounted() {
         // this.myEcharts();
         // this.myFunds();
+        // let remote = window.require('electron').remote
     },
     beforeMount: function () {
         this.dateTime[1] = new Date();
