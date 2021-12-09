@@ -164,7 +164,7 @@ export default {
                     // success
                     this.dataList = response.data.data;
                     // 处理净值数据
-                    // this.tidyData(this.dataList[0].netWorthData)
+                    this.tidyData(this.dataList[0].netWorthData)
                     this.fundName = this.dataList[0].name
                     this.myFunds()     // 图表重新整理
                 })
