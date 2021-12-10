@@ -144,15 +144,24 @@ export default {
         getFundDetailList() {
             let now = new Date();
             let startDate = this.dateTime[0];
-            let endDate = this.dateTime[1];
+            // let endDate = this.dateTime[1];
+            let endDate = now.toLocaleDateString()
+            endDate = endDate.replace(/\//g,"-");
 
             if (startDate == undefined) {
                 startDate = new Date()
             }
 
-            if (endDate == undefined) {
-                endDate = now.getDate()
-            }
+            // if (endDate == undefined) {
+            //     endDate = now.toLocaleDateString()
+            //     endDate = endDate.replace(/\//g,"-");
+            //     console.log(endDate)
+            //     // endDate = now.getDate()
+            //     // var myDate = new Date(); //获取系统当前时间
+            //     // this.dateFtt("yyyy-MM-dd hh:mm:ss", myDate);
+            //     // endDate = this.dateFtt("yyyy-MM-dd hh:mm:ss", now);
+            //     // endDate = '2021-12-10';
+            // }
 
             let params = {
                 "code": this.input,
@@ -270,6 +279,27 @@ export default {
 
             // 使用刚指定的配置项和数据显示图表。
             myChart.setOption(option);
+        },
+        dateFtt(fmt, date) { //author: meizz
+            var o = {
+                "M+": date.getMonth() + 1, //月份
+                "d+": date.getDate(), //日
+                "h+": date.getHours(), //小时
+                "m+": date.getMinutes(), //分
+                "s+": date.getSeconds(), //秒
+                "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+                "S": date.getMilliseconds() //毫秒
+            };
+            if(/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for(var k in o)
+                if(new RegExp("(" + k + ")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        },
+         now_time() {
+            var myDate = new Date(); //获取系统当前时间
+            this.dateFtt("yyyy-MM-dd hh:mm:ss", myDate);
         }
     },
     mounted() {
