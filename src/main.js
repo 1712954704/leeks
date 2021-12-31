@@ -47,7 +47,7 @@ ElementPlus.useLang = (app, ref, locale) => {
         },
     })
 }
-const app = createApp(App)
+const app = createApp(App).use(router)
 ElementPlus.useLang(app, ref, zhLocale)
 app.use(ElementPlus)
 app.config.globalProperties.$echarts = echarts
