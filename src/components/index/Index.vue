@@ -2,8 +2,8 @@
     <el-container>
         <el-header>
             <el-button @click="getFundDetailList">搜索</el-button>
-            <el-button @click="goBaiDu">百度</el-button>
-            <router-link to="/login">跳转</router-link>
+<!--            <el-button @click="goBaiDu">百度</el-button>-->
+<!--            <router-link to="/login">跳转</router-link>-->
 <!--            <el-col :span="6" :offset="6">-->
             <el-col>
                 <el-input v-model="input" @change="getFundDetailList" clearable></el-input>
@@ -157,6 +157,7 @@ export default {
             // let endDate = this.dateTime[1];
             let endDate = now.toLocaleDateString()
             endDate = endDate.replace(/\//g,"-");
+            endDate = this.transformTimestamp(endDate) // 2021-07-06 14:23
 
             if (startDate == undefined) {
                 startDate = new Date()

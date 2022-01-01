@@ -14,7 +14,15 @@
           <Aside />
         </el-aside>
         <el-main>
-            <Index msg="Welcome to Your Vue.js App"/>
+<!--            <Index msg="Welcome to Your Vue.js App"/>-->
+<!--          <p>-->
+<!--            导航 ： <router-link to="/home">首页</router-link> |-->
+<!--            <router-link to="/home/one">-子页面1</router-link> |-->
+<!--            <router-link to="/home/two">-子页面2</router-link> |-->
+<!--            <router-link to="/">Home</router-link> |-->
+<!--          </p>-->
+          <!-- 子页面展示部分 -->
+          <router-view />
         </el-main>
       </el-container>
       <el-footer>
@@ -25,7 +33,7 @@
 <!--  <Index msg="Welcome to Your Vue.js App"/>-->
 </template>
 <script>
-  import Index from './components/index/Index.vue'
+  // import Index from './components/index/Index.vue'
   import Aside from './components/leeks/Aside.vue'
   import Header from './components/leeks/Header.vue'
 
@@ -46,7 +54,7 @@
       };
     },
     components: {
-      Index,
+      // Index,
       Aside,
       Header
     }

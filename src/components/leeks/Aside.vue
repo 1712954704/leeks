@@ -13,8 +13,8 @@
             </template>
             <el-menu-item-group>
                 <span>基金</span>
-                <el-menu-item index="1-1">往日查询</el-menu-item>
-                <el-menu-item index="1-2">今日查询</el-menu-item>
+                <el-menu-item index="1-1"><router-link to="/index">今日查询</router-link></el-menu-item>
+                <el-menu-item index="1-2"><router-link to="/search">往日查询</router-link></el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group title="分组2">
                 <el-menu-item index="1-3">选项3</el-menu-item>
