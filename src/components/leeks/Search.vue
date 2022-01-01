@@ -89,7 +89,7 @@
                 limit: 0,
                 pos: 10,
                 order: 0,
-                total: 100,
+                total: 10,
                 shortcuts: [
                     {
                         text: '最近一周',
@@ -147,7 +147,7 @@
                         // success
                         console.log(response)
                         this.tableData = response.data.list
-                        this.total = response.data.total
+                        this.total = response.data.total / this.limit
                     })
                     .catch(error => {
                         // error
